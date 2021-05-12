@@ -10,6 +10,7 @@ import android.widget.TextView
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
 import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
+import org.sakana.weatherforecast.weatherApiAdapter.model.WeatherApiResponse
 
 
 class CurrentWeatherFragment : Fragment() {
@@ -24,6 +25,12 @@ class CurrentWeatherFragment : Fragment() {
         City("London", R.id.london_icon),
         City("Jamaica", R.id.jamaica_icon)
     );
+    private var listOfWeatherDetailsViewIds: List<Int> = listOf(
+        R.id.temperature_value,
+        R.id.feels_like_value,
+        R.id.humidty_value,
+        R.id.pressure_value
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +44,7 @@ class CurrentWeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupCurrentWeatherViewBindings(view)
         setupCountryImageListeners(view)
-        updateCurrentWeather("Tbilisi")
+        updateCurrentWeather("Tbilisi", view)
     }
 
     private fun setupCountryImageListeners(view: View) {
@@ -48,11 +55,11 @@ class CurrentWeatherFragment : Fragment() {
 
     private fun setupListener(view: View, name: String, imageViewId: Int) {
         view.findViewById<ImageView>(imageViewId).setOnClickListener {
-            updateCurrentWeather(name)
+            updateCurrentWeather(name, view)
         }
     }
 
-    private fun updateCurrentWeather(city: String) {
+    private fun updateCurrentWeather(city: String, view: View) {
         weatherApiAdapter.getCurrentWeather({
             currentCityTextView.text = city
             val temperature = it?.main?.temp
@@ -61,7 +68,20 @@ class CurrentWeatherFragment : Fragment() {
             val iconName = tempWeather?.icon.orEmpty()
             iconLoaderAdapter.loadIconWithNameIntoImageView(iconName, currentWeatherIconImageView)
             currentWeatherDescription.text = tempWeather?.description
+            updateDetails(it, view)
         }, city)
+    }
+
+    private fun updateDetails(weatherApiResponse: WeatherApiResponse?, view: View): Unit {
+        view.findViewById<TextView>(listOfWeatherDetailsViewIds[0]).text =
+            weatherApiResponse?.main?.temp.toString()
+        view.findViewById<TextView>(listOfWeatherDetailsViewIds[1]).text =
+            weatherApiResponse?.main?.feels_like.toString()
+        view.findViewById<TextView>(listOfWeatherDetailsViewIds[2]).text =
+            weatherApiResponse?.main?.humidity.toString()
+        view.findViewById<TextView>(listOfWeatherDetailsViewIds[3]).text =
+            weatherApiResponse?.main?.pressure.toString()
+
     }
 
     private fun setupCurrentWeatherViewBindings(view: View) {
