@@ -11,7 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherApiAdapter {
 
-    public fun getCurrentWeather(weatherDataCallback: (input: WeatherApiResponse?) -> Unit): Unit {
+    private val apiToken: String = "b792876327ea8f510d96527d72eba1a9"
+
+    public fun getCurrentWeather(weatherDataCallback: (input: WeatherApiResponse?) -> Unit, cityName: String): Unit {
 
         val gson = GsonBuilder()
             .setLenient()
@@ -24,9 +26,9 @@ class WeatherApiAdapter {
 
         val apiFetcher = retrofit.create<WeatherApiClient>(WeatherApiClient::class.java)
 
-        apiFetcher.geteCurrentWeatherData().enqueue(object : Callback<WeatherApiResponse> {
+        apiFetcher.geteCurrentWeatherData(cityName, apiToken, "metric").enqueue(object : Callback<WeatherApiResponse> {
             override fun onFailure(call: Call<WeatherApiResponse>, t: Throwable) {
-
+                println("asdasd")
             }
 
             override fun onResponse(

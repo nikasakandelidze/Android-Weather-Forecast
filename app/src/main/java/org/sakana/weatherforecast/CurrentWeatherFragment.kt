@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
 import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 
@@ -14,10 +15,15 @@ import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoade
 class CurrentWeatherFragment : Fragment() {
     private var weatherApiAdapter: WeatherApiAdapter = WeatherApiAdapter()
     private var iconLoaderAdapter: IconLoader = IconLoader()
-    lateinit var currentWeatherIconImageView: ImageView
-    lateinit var currentTemperatureTextView: TextView
-    lateinit var currentWeatherDescription: TextView
-    lateinit var currentCityTextView: TextView
+    private lateinit var currentWeatherIconImageView: ImageView
+    private lateinit var currentTemperatureTextView: TextView
+    private lateinit var currentWeatherDescription: TextView
+    private lateinit var currentCityTextView: TextView
+    private var listOfCities: List<City> = listOf(
+        City("Tbilisi", R.id.georgia_icon),
+        City("London", R.id.london_icon),
+        City("Jamaica", R.id.jamaica_icon)
+    );
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +36,32 @@ class CurrentWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupCurrentWeatherViewBindings(view)
-        weatherApiAdapter.getCurrentWeather {
+        setupCountryImageListeners(view)
+        updateCurrentWeather("Tbilisi")
+    }
+
+    private fun setupCountryImageListeners(view: View) {
+        listOfCities.forEach {
+            setupListener(view, it.name, it.imageViewId)
+        }
+    }
+
+    private fun setupListener(view: View, name: String, imageViewId: Int) {
+        view.findViewById<ImageView>(imageViewId).setOnClickListener {
+            updateCurrentWeather(name)
+        }
+    }
+
+    private fun updateCurrentWeather(city: String) {
+        weatherApiAdapter.getCurrentWeather({
+            currentCityTextView.text = city
             val temperature = it?.main?.temp
             currentTemperatureTextView.text = temperature.toString()
             val tempWeather = it?.weather?.get(0)
-            iconLoaderAdapter.loadIconWithNameIntoImageView(
-                tempWeather?.icon.orEmpty(),
-                currentWeatherIconImageView
-            )
+            val iconName = tempWeather?.icon.orEmpty()
+            iconLoaderAdapter.loadIconWithNameIntoImageView(iconName, currentWeatherIconImageView)
             currentWeatherDescription.text = tempWeather?.description
-        }
+        }, city)
     }
 
     private fun setupCurrentWeatherViewBindings(view: View) {
