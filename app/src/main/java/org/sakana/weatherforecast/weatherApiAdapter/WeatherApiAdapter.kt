@@ -1,7 +1,8 @@
-package org.sakana.weatherforecast.apiAdapter
+package org.sakana.weatherforecast.weatherApiAdapter
 
+import android.widget.ImageView
 import com.google.gson.GsonBuilder
-import org.sakana.weatherforecast.apiAdapter.model.WeatherApiResponse
+import org.sakana.weatherforecast.weatherApiAdapter.model.WeatherApiResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -9,9 +10,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherApiAdapter {
-    val api_key: String = "b792876327ea8f510d96527d72eba1a9"
 
-    public fun getCurrentWeather(): Unit {
+    public fun getCurrentWeather(weatherDataCallback: (input: WeatherApiResponse?) -> Unit): Unit {
 
         val gson = GsonBuilder()
             .setLenient()
@@ -34,11 +34,12 @@ class WeatherApiAdapter {
                 response: Response<WeatherApiResponse>
             ) {
                 if (response.isSuccessful) {
-                    //todo fill
+                    weatherDataCallback(response.body())
                 }
             }
 
         })
     }
+
 
 }

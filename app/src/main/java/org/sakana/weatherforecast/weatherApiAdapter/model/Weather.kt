@@ -1,3 +1,3 @@
-package org.sakana.weatherforecast.apiAdapter.model
+package org.sakana.weatherforecast.weatherApiAdapter.model
 
 data class Weather(val id: Long, val main: String, val description: String, val icon : String)

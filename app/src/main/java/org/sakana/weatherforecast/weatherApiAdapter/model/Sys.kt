@@ -1,4 +1,4 @@
-package org.sakana.weatherforecast.apiAdapter.model
+package org.sakana.weatherforecast.weatherApiAdapter.model
 
 public data class Sys(
     val type: Int,

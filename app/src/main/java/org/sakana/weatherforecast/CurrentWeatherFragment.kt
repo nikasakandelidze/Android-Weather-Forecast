@@ -5,25 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import android.widget.ImageView
+import android.widget.TextView
+import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
+import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 
 
 class CurrentWeatherFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var weatherApiAdapter: WeatherApiAdapter = WeatherApiAdapter()
+    private var iconLoaderAdapter: IconLoader = IconLoader()
+    lateinit var currentWeatherIconImageView: ImageView
+    lateinit var currentTemperatureTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +25,18 @@ class CurrentWeatherFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_current_weather, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WeatherFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CurrentWeatherFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        currentWeatherIconImageView = view.findViewById(R.id.current_weather_icon)
+        currentTemperatureTextView = view.findViewById<TextView>(R.id.current_temperature)
+        weatherApiAdapter.getCurrentWeather {
+            val temperature = it?.main?.temp
+            currentTemperatureTextView.text = temperature.toString()
+            val iconName = it?.weather?.get(0)?.icon
+            iconLoaderAdapter.loadIconWithNameIntoImageView(
+                iconName.orEmpty(),
+                currentWeatherIconImageView
+            )
+        }
     }
 }
