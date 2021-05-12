@@ -16,6 +16,8 @@ class CurrentWeatherFragment : Fragment() {
     private var iconLoaderAdapter: IconLoader = IconLoader()
     lateinit var currentWeatherIconImageView: ImageView
     lateinit var currentTemperatureTextView: TextView
+    lateinit var currentWeatherDescription: TextView
+    lateinit var currentCityTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,16 +29,23 @@ class CurrentWeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentWeatherIconImageView = view.findViewById(R.id.current_weather_icon)
-        currentTemperatureTextView = view.findViewById<TextView>(R.id.current_temperature)
+        setupCurrentWeatherViewBindings(view)
         weatherApiAdapter.getCurrentWeather {
             val temperature = it?.main?.temp
             currentTemperatureTextView.text = temperature.toString()
-            val iconName = it?.weather?.get(0)?.icon
+            val tempWeather = it?.weather?.get(0)
             iconLoaderAdapter.loadIconWithNameIntoImageView(
-                iconName.orEmpty(),
+                tempWeather?.icon.orEmpty(),
                 currentWeatherIconImageView
             )
+            currentWeatherDescription.text = tempWeather?.description
         }
+    }
+
+    private fun setupCurrentWeatherViewBindings(view: View) {
+        currentWeatherIconImageView = view.findViewById(R.id.current_weather_icon)
+        currentTemperatureTextView = view.findViewById<TextView>(R.id.current_temperature)
+        currentCityTextView = view.findViewById(R.id.city_name)
+        currentWeatherDescription = view.findViewById(R.id.weather_description)
     }
 }

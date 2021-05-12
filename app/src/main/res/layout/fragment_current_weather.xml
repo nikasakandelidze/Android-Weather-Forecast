@@ -6,40 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".CurrentWeatherFragment">
 
+    <ImageView
+        android:id="@+id/london_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/uk"
+        app:layout_constraintBottom_toTopOf="@+id/city_name"
+        app:layout_constraintEnd_toStartOf="@+id/jamaica_icon"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/georgia_icon"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/current_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/current_weather_text"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/jamaica_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/jamaica"
+        app:layout_constraintBottom_toBottomOf="@+id/london_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/london_icon"
+        app:layout_constraintTop_toTopOf="@+id/london_icon" />
+
+    <ImageView
+        android:id="@+id/georgia_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/georgia"
+        app:layout_constraintBottom_toBottomOf="@+id/london_icon"
+        app:layout_constraintEnd_toStartOf="@+id/london_icon"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_weather_icon" />
+        app:layout_constraintTop_toTopOf="@+id/london_icon" />
 
     <ImageView
         android:id="@+id/current_weather_icon"
         android:layout_width="@dimen/icon_width"
         android:layout_height="@dimen/icon_height"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/current_temperature"
         app:layout_constraintEnd_toEndOf="@+id/current_temperature"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/current_temperature"
         app:layout_constraintTop_toBottomOf="@+id/city_name" />
 
     <TextView
-        android:id="@+id/city_name"
+        android:id="@+id/weather_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/details_window"
+        app:layout_constraintEnd_toEndOf="@+id/details_window"
+        app:layout_constraintStart_toStartOf="@+id/details_window"
+        app:layout_constraintTop_toBottomOf="@+id/current_temperature" />
+
+    <TextView
+        android:id="@+id/current_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/current_weather_text"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/weather_description"
+        app:layout_constraintEnd_toEndOf="@+id/weather_description"
+        app:layout_constraintStart_toStartOf="@+id/weather_description"
+        app:layout_constraintTop_toBottomOf="@+id/current_weather_icon" />
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginBottom="16dp"
         android:text="Georgia"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/current_weather_icon"
         app:layout_constraintEnd_toEndOf="@+id/current_weather_icon"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/current_weather_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/london_icon" />
+
+    <ScrollView
+        android:id="@+id/details_window"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_description">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

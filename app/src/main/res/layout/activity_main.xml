@@ -6,47 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <ImageView
-        android:id="@+id/london_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/uk"
-        app:layout_constraintEnd_toStartOf="@+id/jamaica_icon"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/georgia_icon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/jamaica_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/jamaica"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/london_icon"
-        app:layout_constraintTop_toTopOf="@+id/london_icon" />
-
-    <ImageView
-        android:id="@+id/georgia_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/georgia"
-        app:layout_constraintEnd_toStartOf="@+id/london_icon"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/london_icon" />
-
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        android:layout_width="409dp"
-        android:layout_height="535dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/firstButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/london_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/firstButton"
@@ -56,7 +23,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/secondButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/secondButton" />
 
     <Button
         android:id="@+id/secondButton"

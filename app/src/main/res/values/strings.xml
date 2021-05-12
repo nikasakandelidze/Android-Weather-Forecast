@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Weather Forecast</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="current_weather_text">Current Weather</string>
+    <string name="current_weather_text">0</string>
     <string name="weather_history_text">Weather History</string>
     <string name="current_weather">Current Weather</string>
     <string name="weather_history">Weather History</string>
