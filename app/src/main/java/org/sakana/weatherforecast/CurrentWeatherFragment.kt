@@ -10,21 +10,16 @@ import android.widget.TextView
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
 import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
-import org.sakana.weatherforecast.weatherApiAdapter.model.WeatherApiResponse
+import org.sakana.weatherforecast.weatherApiAdapter.dto.WeatherApiResponse
 
 
-class CurrentWeatherFragment : Fragment() {
-    private var weatherApiAdapter: WeatherApiAdapter = WeatherApiAdapter()
+class CurrentWeatherFragment(val weatherApiAdapter: WeatherApiAdapter, val listOfCities: List<City>) : Fragment() {
     private var iconLoaderAdapter: IconLoader = IconLoader()
     private lateinit var currentWeatherIconImageView: ImageView
     private lateinit var currentTemperatureTextView: TextView
     private lateinit var currentWeatherDescription: TextView
     private lateinit var currentCityTextView: TextView
-    private var listOfCities: List<City> = listOf(
-        City("Tbilisi", R.id.georgia_icon),
-        City("London", R.id.london_icon),
-        City("Jamaica", R.id.jamaica_icon)
-    );
+
     private var listOfWeatherDetailsViewIds: List<Int> = listOf(
         R.id.temperature_value,
         R.id.feels_like_value,
@@ -69,7 +64,7 @@ class CurrentWeatherFragment : Fragment() {
             iconLoaderAdapter.loadIconWithNameIntoImageView(iconName, currentWeatherIconImageView)
             currentWeatherDescription.text = tempWeather?.description
             updateDetails(it, view)
-        }, city)
+        }, city, view)
     }
 
     private fun updateDetails(weatherApiResponse: WeatherApiResponse?, view: View): Unit {

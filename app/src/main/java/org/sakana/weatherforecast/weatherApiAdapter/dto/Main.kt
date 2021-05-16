@@ -1,4 +1,4 @@
-package org.sakana.weatherforecast.weatherApiAdapter.model
+package org.sakana.weatherforecast.weatherApiAdapter.dto
 
 public data class Main(
     val temp: Double,
