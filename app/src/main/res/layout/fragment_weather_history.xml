@@ -54,5 +54,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/london_icon" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weather_history_list_id"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_name"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

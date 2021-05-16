@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import org.sakana.weatherforecast.adapters.WeatherHistoryItemsAdapter
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
+import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 
 class WeatherHistoryFragment(
     val weatherApiAdapter: WeatherApiAdapter,
-    val listOfCities: List<City>
+    val listOfCities: List<City>,
+    val iconLoaderAdapter: IconLoader
 ) : Fragment() {
     private lateinit var currentCityTextView: TextView
 
@@ -28,7 +32,11 @@ class WeatherHistoryFragment(
         super.onViewCreated(view, savedInstanceState)
         setupCountryImageListeners(view)
         setupCurrentWeatherViewBindings(view)
-        //initialise fragments stuff here
+        weatherApiAdapter.getWeatherHistory({
+            currentCityTextView.text = "Tbilisi"
+            view.findViewById<RecyclerView>(R.id.weather_history_list_id).adapter =
+                WeatherHistoryItemsAdapter(it?.list ?: listOf(), iconLoaderAdapter)
+        }, "Tbilisi", view)
     }
 
     private fun setupCountryImageListeners(view: View) {
@@ -37,19 +45,16 @@ class WeatherHistoryFragment(
         }
     }
 
+
     private fun setupListener(view: View, name: String, imageViewId: Int) {
         view.findViewById<ImageView>(imageViewId).setOnClickListener {
-            updateWeatherHistory(name, view)
+            weatherApiAdapter.getWeatherHistory({
+                currentCityTextView.text = name
+                view.findViewById<RecyclerView>(R.id.weather_history_list_id).adapter =
+                    WeatherHistoryItemsAdapter(it?.list ?: listOf(), iconLoaderAdapter)
+            }, name, view)
         }
     }
-
-    private fun updateWeatherHistory(city: String, view: View) {
-        weatherApiAdapter.getWeatherHistory({
-            currentCityTextView.text = city
-            println(it.toString())
-        }, city, view)
-    }
-
 
     private fun setupCurrentWeatherViewBindings(view: View) {
         currentCityTextView = view.findViewById(R.id.city_name)

@@ -13,8 +13,12 @@ import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoade
 import org.sakana.weatherforecast.weatherApiAdapter.dto.WeatherApiResponse
 
 
-class CurrentWeatherFragment(val weatherApiAdapter: WeatherApiAdapter, val listOfCities: List<City>) : Fragment() {
-    private var iconLoaderAdapter: IconLoader = IconLoader()
+class CurrentWeatherFragment(
+    val weatherApiAdapter: WeatherApiAdapter,
+    val listOfCities: List<City>,
+    val iconLoaderAdapter: IconLoader
+) : Fragment() {
+
     private lateinit var currentWeatherIconImageView: ImageView
     private lateinit var currentTemperatureTextView: TextView
     private lateinit var currentWeatherDescription: TextView

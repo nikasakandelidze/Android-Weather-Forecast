@@ -3,10 +3,11 @@ package org.sakana.weatherforecast
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import org.sakana.weatherforecast.adapters.WeatherFragmentAdapter
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
+import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 
 class MainActivity : AppCompatActivity() {
     private val listOfCities: List<City> = listOf(
@@ -19,9 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var weatherApiAdapter: WeatherApiAdapter = WeatherApiAdapter()
+        val iconLoaderAdapter: IconLoader = IconLoader()
 
-        val weatherHistoryFragment = WeatherHistoryFragment(weatherApiAdapter, listOfCities)
-        val currentWeatherFragment = CurrentWeatherFragment(weatherApiAdapter, listOfCities);
+        val weatherHistoryFragment =
+            WeatherHistoryFragment(weatherApiAdapter, listOfCities, iconLoaderAdapter)
+        val currentWeatherFragment =
+            CurrentWeatherFragment(weatherApiAdapter, listOfCities, iconLoaderAdapter);
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val adapter =

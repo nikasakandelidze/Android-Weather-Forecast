@@ -1,4 +1,4 @@
-package org.sakana.weatherforecast
+package org.sakana.weatherforecast.adapters
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
