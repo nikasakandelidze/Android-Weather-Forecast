@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sakana.weatherforecast.adapters.WeatherHistoryItemsAdapter
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
+import org.sakana.weatherforecast.weatherApiAdapter.dto.WeatherApiResponse
 import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 
 class WeatherHistoryFragment(
@@ -19,7 +20,8 @@ class WeatherHistoryFragment(
     val iconLoaderAdapter: IconLoader
 ) : Fragment() {
     private lateinit var currentCityTextView: TextView
-
+    private lateinit var recyclerView: RecyclerView
+    private var listOfWeatherItems: MutableList<WeatherApiResponse> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,13 +32,20 @@ class WeatherHistoryFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupCountryImageListeners(view)
-        setupCurrentWeatherViewBindings(view)
+        recyclerView = view.findViewById<RecyclerView>(R.id.weather_history_list_id)
+        setUpRecyclerViewAdapter(view)
         weatherApiAdapter.getWeatherHistory({
             currentCityTextView.text = "Tbilisi"
-            view.findViewById<RecyclerView>(R.id.weather_history_list_id).adapter =
-                WeatherHistoryItemsAdapter(it?.list ?: listOf(), iconLoaderAdapter)
+            listOfWeatherItems.addAll((it?.list ?: listOf()))
+            recyclerView.adapter?.notifyDataSetChanged()
         }, "Tbilisi", view)
+        setupCountryImageListeners(view)
+        setupCurrentWeatherViewBindings(view)
+    }
+
+    private fun setUpRecyclerViewAdapter(view: View) {
+        recyclerView.adapter =
+            WeatherHistoryItemsAdapter(listOfWeatherItems, iconLoaderAdapter)
     }
 
     private fun setupCountryImageListeners(view: View) {
@@ -50,8 +59,9 @@ class WeatherHistoryFragment(
         view.findViewById<ImageView>(imageViewId).setOnClickListener {
             weatherApiAdapter.getWeatherHistory({
                 currentCityTextView.text = name
-                view.findViewById<RecyclerView>(R.id.weather_history_list_id).adapter =
-                    WeatherHistoryItemsAdapter(it?.list ?: listOf(), iconLoaderAdapter)
+                listOfWeatherItems.clear()
+                listOfWeatherItems.addAll(it?.list ?: listOf())
+                recyclerView.adapter?.notifyDataSetChanged()
             }, name, view)
         }
     }
