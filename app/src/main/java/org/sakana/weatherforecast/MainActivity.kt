@@ -3,6 +3,7 @@ package org.sakana.weatherforecast
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
 import org.sakana.weatherforecast.adapters.WeatherFragmentAdapter
 import org.sakana.weatherforecast.model.City
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         itemIndex: Int,
         viewPager: ViewPager2
     ): Unit {
-        findViewById<Button>(buttonId).setOnClickListener {
+        findViewById<ImageView>(buttonId).setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
                 viewPager.setCurrentItem(itemIndex, true)
                 commit()
