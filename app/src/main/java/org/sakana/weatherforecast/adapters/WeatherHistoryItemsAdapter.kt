@@ -1,5 +1,7 @@
 package org.sakana.weatherforecast.adapters
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +26,11 @@ class WeatherHistoryItemsAdapter(var listOfWeatherHistory:List<WeatherApiRespons
     override fun onBindViewHolder(holder: WeatherHistoryItemViewHolder, position: Int) {
         var tempItem = listOfWeatherHistory[position]
         holder.temperatureView.text = tempItem.main.temp.toString()
+        holder.temperatureView.setTextColor(Color.WHITE)
         holder.currentDate.text = tempItem.dt.toString()
+        holder.currentDate.setTextColor(Color.WHITE)
         holder.descriptionView.text = tempItem.weather[0].description
+        holder.descriptionView.setTextColor(Color.WHITE)
         iconLoaderAdapter.loadIconWithNameIntoImageView(tempItem.weather[0].icon, holder.iconView)
     }
 

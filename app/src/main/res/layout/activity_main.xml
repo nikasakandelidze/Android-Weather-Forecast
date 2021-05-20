@@ -25,7 +25,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/secondButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/white" />
 
     <ImageView
         android:id="@+id/secondButton"
@@ -37,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/firstButton"
-        app:layout_constraintTop_toTopOf="@+id/firstButton" />
+        app:layout_constraintTop_toTopOf="@+id/firstButton"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

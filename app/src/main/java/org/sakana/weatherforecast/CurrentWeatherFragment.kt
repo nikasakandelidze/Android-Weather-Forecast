@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import org.sakana.weatherforecast.model.City
 import org.sakana.weatherforecast.weatherApiAdapter.WeatherApiAdapter
+import org.sakana.weatherforecast.weatherApiAdapter.DayNightProcessor
 import org.sakana.weatherforecast.weatherApiAdapter.iconsLoaderAdapter.IconLoader
 import org.sakana.weatherforecast.weatherApiAdapter.dto.WeatherApiResponse
 
@@ -23,6 +25,7 @@ class CurrentWeatherFragment(
     private lateinit var currentTemperatureTextView: TextView
     private lateinit var currentWeatherDescription: TextView
     private lateinit var currentCityTextView: TextView
+    private val dayNightProcessor: DayNightProcessor = DayNightProcessor()
 
     private var listOfWeatherDetailsViewIds: List<Int> = listOf(
         R.id.temperature_value,
@@ -58,8 +61,22 @@ class CurrentWeatherFragment(
         }
     }
 
+
     private fun updateCurrentWeather(city: String, view: View) {
         weatherApiAdapter.getCurrentWeather({
+            val dateTime = it?.dt
+            if (dayNightProcessor.isNight(dateTime)) {
+                view.rootView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.night_color))
+            }else{
+                view.rootView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.day_color))
+            }
+
             currentCityTextView.text = city
             val temperature = it?.main?.temp
             currentTemperatureTextView.text = temperature.toString()
@@ -89,4 +106,6 @@ class CurrentWeatherFragment(
         currentCityTextView = view.findViewById(R.id.city_name)
         currentWeatherDescription = view.findViewById(R.id.weather_description)
     }
+
+
 }
